@@ -14,7 +14,7 @@ public class UserServiceImplTest {
     ClassPathXmlApplicationContext ioc;
     @Before
     public void before(){
-        ioc=new ClassPathXmlApplicationContext("spring_ioc.xml");
+        ioc=new ClassPathXmlApplicationContext("spring.xml");
     }
     @Test
     public void test01()
@@ -27,7 +27,7 @@ public class UserServiceImplTest {
     {
         JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
         System.out.println(jdbcTemplate);
-        Long aLong = jdbcTemplate.queryForObject("select count(*) from user",Long.class);
+        Long aLong = jdbcTemplate.queryForObject("select count(*) from t_user",Long.class);
         System.out.println(aLong);
     }
 
@@ -36,7 +36,7 @@ public class UserServiceImplTest {
     {
         JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
         System.out.println(jdbcTemplate);
-        User user = jdbcTemplate.queryForObject("select * from user where id =1 ",new BeanPropertyRowMapper<>(User.class));
+        User user = jdbcTemplate.queryForObject("select * from t_user where id =1 ",new BeanPropertyRowMapper<>(User.class));
         System.out.println(user);
     }
     @Test
@@ -44,7 +44,7 @@ public class UserServiceImplTest {
     {
         JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
         System.out.println(jdbcTemplate);
-        User user = jdbcTemplate.queryForObject("select * from user where id =1 ",(resultSet,i)->{
+        User user = jdbcTemplate.queryForObject("select * from t_user where id =1 ",(resultSet,i)->{
             User o=new User();
             o.setId(resultSet.getInt("id"));
             o.setRealName(resultSet.getString("realName"));
@@ -59,7 +59,7 @@ public class UserServiceImplTest {
     {
         JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
         System.out.println(jdbcTemplate);
-        List<User> user = jdbcTemplate.query("select * from user ",(resultSet, i)->{
+        List<User> user = jdbcTemplate.query("select * from t_user ",(resultSet, i)->{
             User o=new User();
             o.setId(resultSet.getInt("id"));
             o.setRealName(resultSet.getString("realName"));
