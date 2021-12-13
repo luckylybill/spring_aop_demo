@@ -1,49 +1,72 @@
 package com.jerry.service;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.jerry.entity.User;
-import com.jerry.service.impl.UserServiceWithoutImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
-/**
- * created by jerry on 2021-12-12
- */
 public class UserServiceImplTest {
     ClassPathXmlApplicationContext ioc;
-    JdbcTemplate jdbcTemplate;
-
     @Before
-    public void before()
-    {
-        ioc=new ClassPathXmlApplicationContext("classpath:/spring.xml");
-        jdbcTemplate = ioc.getBean(JdbcTemplate.class);
+    public void before(){
+        ioc=new ClassPathXmlApplicationContext("spring_ioc.xml");
     }
     @Test
-    public void test01(){
-        IUserService userService=ioc.getBean(IUserService.class);
-        User user=new User();
-        user.setName("张三");
-        user.setAge(22);
-        try {
-            userService.add(user);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    public void test01()
+    {
+        DruidDataSource bean = ioc.getBean(DruidDataSource.class);
+        System.out.println(bean);
+    }
+    @Test
+    public void test02()
+    {
+        JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
+        System.out.println(jdbcTemplate);
+        Long aLong = jdbcTemplate.queryForObject("select count(*) from user",Long.class);
+        System.out.println(aLong);
     }
 
     @Test
-    public void test02(){
-        User user1 = jdbcTemplate.queryForObject("select id,name,age from t_user where id=1;", (resultSet,i) -> {
-            User user = new User();
-            user.setID(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setAge(resultSet.getInt("age"));
-            return user;
+    public void test03()
+    {
+        JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
+        System.out.println(jdbcTemplate);
+        User user = jdbcTemplate.queryForObject("select * from user where id =1 ",new BeanPropertyRowMapper<>(User.class));
+        System.out.println(user);
+    }
+    @Test
+    public void test04()
+    {
+        JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
+        System.out.println(jdbcTemplate);
+        User user = jdbcTemplate.queryForObject("select * from user where id =1 ",(resultSet,i)->{
+            User o=new User();
+            o.setId(resultSet.getInt("id"));
+            o.setRealName(resultSet.getString("realName"));
+            o.setCardNo(resultSet.getString("cardNo"));
+            o.setBalance(resultSet.getInt("balance"));
+            return o;
         });
-        System.out.println(user1);
+        System.out.println(user);
+    }
+    @Test
+    public void test05()
+    {
+        JdbcTemplate jdbcTemplate = ioc.getBean(JdbcTemplate.class);
+        System.out.println(jdbcTemplate);
+        List<User> user = jdbcTemplate.query("select * from user ",(resultSet, i)->{
+            User o=new User();
+            o.setId(resultSet.getInt("id"));
+            o.setRealName(resultSet.getString("realName"));
+            o.setCardNo(resultSet.getString("cardNo"));
+            o.setBalance(resultSet.getInt("balance"));
+            return o;
+        });
+        System.out.println(user);
     }
 }

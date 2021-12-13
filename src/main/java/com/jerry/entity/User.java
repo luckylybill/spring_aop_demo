@@ -1,47 +1,53 @@
 package com.jerry.entity;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-/**
- * created by jerry on 2021-12-12
- */
 @Component
 public class User {
-    public Integer ID;
-    public String Name;
-    public Integer Age;
+    private Integer id;
+    private String realName;
+    private String cardNo;
+    private Integer balance;
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return Name;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
-    public Integer getAge() {
-        return Age;
+    public String getCardNo() {
+        return cardNo;
     }
 
-    public void setAge(Integer age) {
-        Age = age;
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "ID=" + ID +
-                ", Name='" + Name + '\'' +
-                ", Age=" + Age +
+                "id=" + id +
+                ", realName='" + realName + '\'' +
+                ", cardNo='" + cardNo + '\'' +
+                ", balance=" + balance +
                 '}';
     }
 }
