@@ -6,6 +6,8 @@ import com.jerry.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * created by jerry on 2021-12-12
  */
@@ -15,7 +17,7 @@ public class UserServiceImpl implements IUserService {
     IUserDao userDao;
 
     @Override
-    public User select() {
+    public List<User> select() {
         return null;
     }
 
