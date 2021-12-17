@@ -9,4 +9,6 @@ public interface IUserDao {
     void add(User user) throws Exception;
     void update(User user) throws Exception;
     void delete(User user) throws Exception;
+
+    User selectById(Integer id);
 }

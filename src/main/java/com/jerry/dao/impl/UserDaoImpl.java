@@ -2,6 +2,7 @@ package com.jerry.dao.impl;
 
 import com.jerry.dao.IUserDao;
 import com.jerry.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,15 +16,11 @@ import java.util.List;
  */
 @Repository
 public class UserDaoImpl implements IUserDao {
-
+    @Autowired
     JdbcTemplate jdbcTemplate;
-    public void setJdbcTemplate(DataSource dataSource)
-    {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
     @Override
     public List<User> select() {
-        return jdbcTemplate.query("select * from t_user where id=1", new BeanPropertyRowMapper<>(User.class));
+        return jdbcTemplate.query("select * from t_user", new BeanPropertyRowMapper<>(User.class));
     }
 
     @Override
@@ -45,5 +42,17 @@ public class UserDaoImpl implements IUserDao {
         if (user == null)
             throw new Exception("用户不能为空");
         System.out.println("删除用户");
+    }
+
+    @Override
+    public User selectById(Integer id) {
+        return jdbcTemplate.queryForObject("select * from t_user where id=?", (resultSet,i)->{
+            User user=new User();
+            user.setId(resultSet.getInt("Id"));
+            user.setRealName(resultSet.getString("realName"));
+            user.setCardNo(resultSet.getString("cardNo"));
+            user.setBalance(resultSet.getInt("balance"));
+            return user;
+        },id);
     }
 }

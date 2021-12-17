@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 @Component
-@Aspect
+//@Aspect
 public class LogAspect {
     @Pointcut("execution(* com.jerry.service.impl.UserServiceImpl.*(..))")
     public void getCut(){
